@@ -1,0 +1,41 @@
+/*! Bulma RTL Support | MIT License | https://bulma.io/ */
+/* RTL Support for Bulma */
+[dir="rtl"] .navbar-start {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+[dir="rtl"] .navbar-end {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+[dir="rtl"] .level-left {
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .level-right {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .field.has-addons .control:not(:last-child) .button,
+[dir="rtl"] .field.has-addons .control:not(:last-child) .input,
+[dir="rtl"] .field.has-addons .control:not(:last-child) .select select {
+  border-radius: 0 4px 4px 0;
+}
+
+[dir="rtl"] .field.has-addons .control:first-child .button,
+[dir="rtl"] .field.has-addons .control:first-child .input,
+[dir="rtl"] .field.has-addons .control:first-child .select select {
+  border-radius: 4px 0 0 4px;
+}
+
+[dir="rtl"] .tabs ul {
+  padding-right: 0;
+}
+
+[dir="rtl"] .breadcrumb li:not(:last-child)::after {
+  content: "\\";
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}

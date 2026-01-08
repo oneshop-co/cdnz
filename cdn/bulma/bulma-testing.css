@@ -1,0 +1,292 @@
+/*! Bulma Testing | MIT License | https://bulma.io/ */
+/* Testing Utilities */
+.test-visible {
+  border: 2px solid #f00 !important;
+  background: rgba(255, 0, 0, 0.1) !important;
+}
+
+.test-hidden {
+  border: 2px solid #0f0 !important;
+  background: rgba(0, 255, 0, 0.1) !important;
+}
+
+.test-focus {
+  border: 2px solid #00f !important;
+  background: rgba(0, 0, 255, 0.1) !important;
+}
+
+.test-hover {
+  border: 2px solid #ff0 !important;
+  background: rgba(255, 255, 0, 0.1) !important;
+}
+
+.test-active {
+  border: 2px solid #f0f !important;
+  background: rgba(255, 0, 255, 0.1) !important;
+}
+
+.test-disabled {
+  border: 2px solid #0ff !important;
+  background: rgba(0, 255, 255, 0.1) !important;
+}
+
+.test-error {
+  border: 2px solid #f00 !important;
+  background: rgba(255, 0, 0, 0.2) !important;
+}
+
+.test-success {
+  border: 2px solid #0f0 !important;
+  background: rgba(0, 255, 0, 0.2) !important;
+}
+
+.test-warning {
+  border: 2px solid #ff0 !important;
+  background: rgba(255, 255, 0, 0.2) !important;
+}
+
+.test-info {
+  border: 2px solid #00f !important;
+  background: rgba(0, 0, 255, 0.2) !important;
+}
+
+/* Testing Grid */
+.test-grid {
+  border: 1px dashed #ccc;
+  background: rgba(0, 0, 0, 0.05);
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.test-grid::before {
+  content: "Grid Item";
+}
+
+/* Testing Breakpoints */
+.test-breakpoint::after {
+  content: "Mobile";
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  z-index: 9999;
+}
+
+@media (min-width: 768px) {
+  .test-breakpoint::after {
+    content: "Tablet";
+  }
+}
+
+@media (min-width: 1024px) {
+  .test-breakpoint::after {
+    content: "Desktop";
+  }
+}
+
+@media (min-width: 1216px) {
+  .test-breakpoint::after {
+    content: "Widescreen";
+  }
+}
+
+@media (min-width: 1408px) {
+  .test-breakpoint::after {
+    content: "FullHD";
+  }
+}
+
+/* Testing Accessibility */
+.test-a11y-focus {
+  outline: 3px solid #f00 !important;
+  outline-offset: 2px !important;
+}
+
+.test-a11y-focus:focus {
+  outline: 3px solid #0f0 !important;
+}
+
+.test-a11y-focus:focus:not(:focus-visible) {
+  outline: 3px solid #00f !important;
+}
+
+.test-a11y-focus:focus-visible {
+  outline: 3px solid #ff0 !important;
+}
+
+/* Testing Performance */
+.test-performance {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.test-performance:hover {
+  transform: translateZ(0) scale(1.1);
+}
+
+/* Testing Responsive */
+.test-responsive {
+  border: 2px solid #000;
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.test-responsive::before {
+  content: "100%";
+}
+
+@media (min-width: 768px) {
+  .test-responsive::before {
+    content: "50%";
+  }
+}
+
+@media (min-width: 1024px) {
+  .test-responsive::before {
+    content: "33.33%";
+  }
+}
+
+@media (min-width: 1216px) {
+  .test-responsive::before {
+    content: "25%";
+  }
+}
+
+/* Testing States */
+.test-state-default {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+}
+
+.test-state-hover:hover {
+  background: #e8e8e8;
+  border-color: #ccc;
+}
+
+.test-state-active:active {
+  background: #d8d8d8;
+  border-color: #bbb;
+}
+
+.test-state-focus:focus {
+  background: #e0f0ff;
+  border-color: #007acc;
+}
+
+.test-state-disabled:disabled {
+  background: #f0f0f0;
+  border-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Testing Validation */
+.test-validation-valid {
+  border-color: #0f0 !important;
+  background: rgba(0, 255, 0, 0.1) !important;
+}
+
+.test-validation-invalid {
+  border-color: #f00 !important;
+  background: rgba(255, 0, 0, 0.1) !important;
+}
+
+.test-validation-required::after {
+  content: " *";
+  color: #f00;
+}
+
+/* Testing Loading */
+.test-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.test-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #ddd;
+  border-top-color: #007acc;
+  border-radius: 50%;
+  animation: test-spin 1s linear infinite;
+}
+
+@keyframes test-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Testing Animation */
+.test-animation {
+  transition: all 0.3s ease;
+}
+
+.test-animation:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Testing Print */
+@media print {
+  .test-print {
+    display: block !important;
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+  
+  .test-no-print {
+    display: none !important;
+  }
+}
+
+/* Testing High Contrast */
+@media (prefers-contrast: high) {
+  .test-high-contrast {
+    border-width: 3px !important;
+    background: #000 !important;
+    color: #fff !important;
+  }
+}
+
+/* Testing Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .test-reduced-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Testing Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .test-dark-mode {
+    background: #333 !important;
+    color: #fff !important;
+    border-color: #666 !important;
+  }
+}
+
+/* Testing Light Mode */
+@media (prefers-color-scheme: light) {
+  .test-light-mode {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #ccc !important;
+  }
+}

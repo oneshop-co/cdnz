@@ -1,0 +1,42 @@
+/*! Bulma Extensions | MIT License | https://bulma.io/documentation/overview/extensions/ */
+/* Calendar */
+.calendar {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  color: #4a4a4a;
+  display: block;
+  padding: 1rem;
+  position: relative;
+}
+
+/* Tooltip */
+.has-tooltip-arrow {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+}
+
+/* Divider */
+.divider {
+  display: block;
+  position: relative;
+  border-top: 0.1rem solid #dbdbdb;
+  height: 0.1rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.divider::after {
+  background: #fff;
+  content: attr(data-content);
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0 0.5rem;
+  transform: translateY(-1.1rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}

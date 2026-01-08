@@ -1,0 +1,95 @@
+/*! Bulma Responsive Utilities | MIT License | https://bulma.io/documentation/overview/responsiveness/ */
+/* Responsive Utilities */
+.is-hidden-mobile {
+  display: none !important;
+}
+
+.is-hidden-tablet {
+  display: none !important;
+}
+
+.is-hidden-desktop {
+  display: none !important;
+}
+
+.is-hidden-widescreen {
+  display: none !important;
+}
+
+.is-hidden-fullhd {
+  display: none !important;
+}
+
+/* Mobile First */
+@media screen and (min-width: 768px) {
+  .is-hidden-mobile {
+    display: block !important;
+  }
+  
+  .is-hidden-tablet {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .is-hidden-tablet {
+    display: block !important;
+  }
+  
+  .is-hidden-desktop {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1216px) {
+  .is-hidden-desktop {
+    display: block !important;
+  }
+  
+  .is-hidden-widescreen {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1408px) {
+  .is-hidden-widescreen {
+    display: block !important;
+  }
+  
+  .is-hidden-fullhd {
+    display: none !important;
+  }
+}
+
+/* Responsive Text */
+.has-text-centered-mobile {
+  text-align: center !important;
+}
+
+.has-text-left-tablet {
+  text-align: left !important;
+}
+
+.has-text-right-desktop {
+  text-align: right !important;
+}
+
+@media screen and (min-width: 768px) {
+  .has-text-centered-mobile {
+    text-align: inherit !important;
+  }
+  
+  .has-text-left-tablet {
+    text-align: left !important;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .has-text-left-tablet {
+    text-align: inherit !important;
+  }
+  
+  .has-text-right-desktop {
+    text-align: right !important;
+  }
+}

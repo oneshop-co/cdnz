@@ -1,0 +1,368 @@
+/*! Bulma Icons | MIT License | https://bulma.io/ */
+/* Icon Base */
+.icon-base {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.icon-base.is-small {
+  height: 1rem;
+  width: 1rem;
+}
+
+.icon-base.is-medium {
+  height: 2rem;
+  width: 2rem;
+}
+
+.icon-base.is-large {
+  height: 3rem;
+  width: 3rem;
+}
+
+/* Heroicons */
+.icon-hero {
+  fill: currentColor;
+  height: 1em;
+  width: 1em;
+}
+
+.icon-hero.is-small {
+  height: 0.875em;
+  width: 0.875em;
+}
+
+.icon-hero.is-medium {
+  height: 1.125em;
+  width: 1.125em;
+}
+
+.icon-hero.is-large {
+  height: 1.25em;
+  width: 1.25em;
+}
+
+/* Font Awesome */
+.icon-fa {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.icon-fa.is-small {
+  font-size: 0.875em;
+}
+
+.icon-fa.is-medium {
+  font-size: 1.125em;
+}
+
+.icon-fa.is-large {
+  font-size: 1.25em;
+}
+
+/* Material Icons */
+.icon-material {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon-material.is-small {
+  font-size: 18px;
+}
+
+.icon-material.is-medium {
+  font-size: 24px;
+}
+
+.icon-material.is-large {
+  font-size: 36px;
+}
+
+/* Feather Icons */
+.icon-feather {
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  height: 1em;
+  width: 1em;
+}
+
+.icon-feather.is-small {
+  height: 0.875em;
+  width: 0.875em;
+  stroke-width: 1.5;
+}
+
+.icon-feather.is-medium {
+  height: 1.125em;
+  width: 1.125em;
+  stroke-width: 2;
+}
+
+.icon-feather.is-large {
+  height: 1.25em;
+  width: 1.25em;
+  stroke-width: 2.5;
+}
+
+/* Icon Colors */
+.icon-base.has-text-white,
+.icon-hero.has-text-white,
+.icon-fa.has-text-white,
+.icon-material.has-text-white,
+.icon-feather.has-text-white {
+  color: #fff !important;
+}
+
+.icon-base.has-text-black,
+.icon-hero.has-text-black,
+.icon-fa.has-text-black,
+.icon-material.has-text-black,
+.icon-feather.has-text-black {
+  color: #0a0a0a !important;
+}
+
+.icon-base.has-text-light,
+.icon-hero.has-text-light,
+.icon-fa.has-text-light,
+.icon-material.has-text-light,
+.icon-feather.has-text-light {
+  color: #f5f5f5 !important;
+}
+
+.icon-base.has-text-dark,
+.icon-hero.has-text-dark,
+.icon-fa.has-text-dark,
+.icon-material.has-text-dark,
+.icon-feather.has-text-dark {
+  color: #363636 !important;
+}
+
+.icon-base.has-text-primary,
+.icon-hero.has-text-primary,
+.icon-fa.has-text-primary,
+.icon-material.has-text-primary,
+.icon-feather.has-text-primary {
+  color: #00d1b2 !important;
+}
+
+.icon-base.has-text-link,
+.icon-hero.has-text-link,
+.icon-fa.has-text-link,
+.icon-material.has-text-link,
+.icon-feather.has-text-link {
+  color: #3273dc !important;
+}
+
+.icon-base.has-text-info,
+.icon-hero.has-text-info,
+.icon-fa.has-text-info,
+.icon-material.has-text-info,
+.icon-feather.has-text-info {
+  color: #3298dc !important;
+}
+
+.icon-base.has-text-success,
+.icon-hero.has-text-success,
+.icon-fa.has-text-success,
+.icon-material.has-text-success,
+.icon-feather.has-text-success {
+  color: #48c774 !important;
+}
+
+.icon-base.has-text-warning,
+.icon-hero.has-text-warning,
+.icon-fa.has-text-warning,
+.icon-material.has-text-warning,
+.icon-feather.has-text-warning {
+  color: #ffdd57 !important;
+}
+
+.icon-base.has-text-danger,
+.icon-hero.has-text-danger,
+.icon-fa.has-text-danger,
+.icon-material.has-text-danger,
+.icon-feather.has-text-danger {
+  color: #f14668 !important;
+}
+
+/* Icon Animations */
+.icon-base.is-spinning,
+.icon-hero.is-spinning,
+.icon-fa.is-spinning,
+.icon-material.is-spinning,
+.icon-feather.is-spinning {
+  animation: spin 1s linear infinite;
+}
+
+.icon-base.is-pulsing,
+.icon-hero.is-pulsing,
+.icon-fa.is-pulsing,
+.icon-material.is-pulsing,
+.icon-feather.is-pulsing {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.icon-base.is-bouncing,
+.icon-hero.is-bouncing,
+.icon-fa.is-bouncing,
+.icon-material.is-bouncing,
+.icon-feather.is-bouncing {
+  animation: bounce 1s infinite;
+}
+
+.icon-base.is-shaking,
+.icon-hero.is-shaking,
+.icon-fa.is-shaking,
+.icon-material.is-shaking,
+.icon-feather.is-shaking {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
+/* Icon Keyframes */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+/* Icon Sizes */
+.icon-base.is-16x16,
+.icon-hero.is-16x16,
+.icon-fa.is-16x16,
+.icon-material.is-16x16,
+.icon-feather.is-16x16 {
+  height: 16px;
+  width: 16px;
+}
+
+.icon-base.is-24x24,
+.icon-hero.is-24x24,
+.icon-fa.is-24x24,
+.icon-material.is-24x24,
+.icon-feather.is-24x24 {
+  height: 24px;
+  width: 24px;
+}
+
+.icon-base.is-32x32,
+.icon-hero.is-32x32,
+.icon-fa.is-32x32,
+.icon-material.is-32x32,
+.icon-feather.is-32x32 {
+  height: 32px;
+  width: 32px;
+}
+
+.icon-base.is-48x48,
+.icon-hero.is-48x48,
+.icon-fa.is-48x48,
+.icon-material.is-48x48,
+.icon-feather.is-48x48 {
+  height: 48px;
+  width: 48px;
+}
+
+.icon-base.is-64x64,
+.icon-hero.is-64x64,
+.icon-fa.is-64x64,
+.icon-material.is-64x64,
+.icon-feather.is-64x64 {
+  height: 64px;
+  width: 64px;
+}
+
+.icon-base.is-96x96,
+.icon-hero.is-96x96,
+.icon-fa.is-96x96,
+.icon-material.is-96x96,
+.icon-feather.is-96x96 {
+  height: 96px;
+  width: 96px;
+}
+
+.icon-base.is-128x128,
+.icon-hero.is-128x128,
+.icon-fa.is-128x128,
+.icon-material.is-128x128,
+.icon-feather.is-128x128 {
+  height: 128px;
+  width: 128px;
+}
+
+.icon-base.is-256x256,
+.icon-hero.is-256x256,
+.icon-fa.is-256x256,
+.icon-material.is-256x256,
+.icon-feather.is-256x256 {
+  height: 256px;
+  width: 256px;
+}
+
+.icon-base.is-512x512,
+.icon-hero.is-512x512,
+.icon-fa.is-512x512,
+.icon-material.is-512x512,
+.icon-feather.is-512x512 {
+  height: 512px;
+  width: 512px;
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+ 
+Sitemap: https://cdnz.ir/sitemap.xml 

@@ -1,0 +1,181 @@
+/*! Bulma Forms | MIT License | https://bulma.io/documentation/form/ */
+/* Custom Form Styles */
+.form-custom {
+  margin-bottom: 1.5rem;
+}
+
+.form-custom .label {
+  color: #363636;
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.form-custom .input,
+.form-custom .textarea,
+.form-custom .select select {
+  background-color: #fff;
+  border-color: #dbdbdb;
+  border-radius: 4px;
+  color: #363636;
+  font-size: 1rem;
+  height: 2.5em;
+  line-height: 1.5;
+  padding: calc(0.5em - 1px) calc(0.75em - 1px);
+  position: relative;
+  vertical-align: top;
+  border: 1px solid #dbdbdb;
+  transition: all 0.2s ease;
+}
+
+.form-custom .input:focus,
+.form-custom .textarea:focus,
+.form-custom .select select:focus {
+  border-color: #3273dc;
+  box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+  outline: none;
+}
+
+.form-custom .input:hover,
+.form-custom .textarea:hover,
+.form-custom .select select:hover {
+  border-color: #b5b5b5;
+}
+
+.form-custom .textarea {
+  display: block;
+  max-width: 100%;
+  min-width: 100%;
+  padding: calc(0.75em - 1px);
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-custom .select {
+  display: inline-block;
+  max-width: 100%;
+  position: relative;
+  vertical-align: top;
+}
+
+.form-custom .select select {
+  cursor: pointer;
+  display: block;
+  font-size: 1em;
+  max-width: 100%;
+  outline: none;
+  padding-right: 2.5em;
+}
+
+.form-custom .select::after {
+  border: 3px solid transparent;
+  border-radius: 2px;
+  border-right: 0;
+  border-top: 0;
+  content: " ";
+  display: block;
+  height: 0.625em;
+  margin-top: -0.4375em;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  width: 0.625em;
+  right: 1.125em;
+}
+
+/* Form Validation */
+.form-custom .input.is-danger,
+.form-custom .textarea.is-danger,
+.form-custom .select select.is-danger {
+  border-color: #f14668;
+}
+
+.form-custom .input.is-success,
+.form-custom .textarea.is-success,
+.form-custom .select select.is-success {
+  border-color: #48c774;
+}
+
+.form-custom .input.is-warning,
+.form-custom .textarea.is-warning,
+.form-custom .select select.is-warning {
+  border-color: #ffdd57;
+}
+
+.form-custom .input.is-info,
+.form-custom .textarea.is-info,
+.form-custom .select select.is-info {
+  border-color: #3298dc;
+}
+
+/* Form Help Text */
+.form-custom .help {
+  color: #4a4a4a;
+  display: block;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.form-custom .help.is-danger {
+  color: #f14668;
+}
+
+.form-custom .help.is-success {
+  color: #48c774;
+}
+
+.form-custom .help.is-warning {
+  color: #ffdd57;
+}
+
+.form-custom .help.is-info {
+  color: #3298dc;
+}
+
+/* Form Field Addons */
+.form-custom .field.has-addons {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.form-custom .field.has-addons .control:not(:last-child) .button,
+.form-custom .field.has-addons .control:not(:last-child) .input,
+.form-custom .field.has-addons .control:not(:last-child) .select select {
+  border-right: 0;
+  border-radius: 0;
+}
+
+.form-custom .field.has-addons .control:first-child .button,
+.form-custom .field.has-addons .control:first-child .input,
+.form-custom .field.has-addons .control:first-child .select select {
+  border-radius: 4px 0 0 4px;
+}
+
+.form-custom .field.has-addons .control:last-child .button,
+.form-custom .field.has-addons .control:last-child .input,
+.form-custom .field.has-addons .control:last-child .select select {
+  border-radius: 0 4px 4px 0;
+}
+
+/* Form Checkbox and Radio */
+.form-custom .checkbox,
+.form-custom .radio {
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.25;
+  position: relative;
+}
+
+.form-custom .checkbox input,
+.form-custom .radio input {
+  cursor: pointer;
+  margin-right: 0.5em;
+}
+
+.form-custom .checkbox:hover,
+.form-custom .radio:hover {
+  color: #363636;
+}

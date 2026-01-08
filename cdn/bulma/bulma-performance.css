@@ -1,0 +1,642 @@
+/*! Bulma Performance | MIT License | https://bulma.io/ */
+/* Performance Optimizations */
+.performance-optimized {
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Will-change hints */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+.will-change-contents {
+  will-change: contents;
+}
+
+/* Containment */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-style {
+  contain: style;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-size {
+  contain: size;
+}
+
+.contain-strict {
+  contain: strict;
+}
+
+/* Content-visibility */
+.content-visibility-auto {
+  content-visibility: auto;
+}
+
+.content-visibility-hidden {
+  content-visibility: hidden;
+}
+
+.content-visibility-visible {
+  content-visibility: visible;
+}
+
+/* Object-fit */
+.object-cover {
+  object-fit: cover;
+}
+
+.object-contain {
+  object-fit: contain;
+}
+
+.object-fill {
+  object-fit: fill;
+}
+
+.object-none {
+  object-fit: none;
+}
+
+.object-scale-down {
+  object-fit: scale-down;
+}
+
+/* Object-position */
+.object-center {
+  object-position: center;
+}
+
+.object-top {
+  object-position: top;
+}
+
+.object-bottom {
+  object-position: bottom;
+}
+
+.object-left {
+  object-position: left;
+}
+
+.object-right {
+  object-position: right;
+}
+
+.object-top-left {
+  object-position: top left;
+}
+
+.object-top-right {
+  object-position: top right;
+}
+
+.object-bottom-left {
+  object-position: bottom left;
+}
+
+.object-bottom-right {
+  object-position: bottom right;
+}
+
+/* Image optimization */
+.image-optimized {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.image-smooth {
+  image-rendering: smooth;
+}
+
+.image-auto {
+  image-rendering: auto;
+}
+
+/* Font optimization */
+.font-display-swap {
+  font-display: swap;
+}
+
+.font-display-fallback {
+  font-display: fallback;
+}
+
+.font-display-optional {
+  font-display: optional;
+}
+
+.font-display-block {
+  font-display: block;
+}
+
+/* Text rendering */
+.text-render-optimizeSpeed {
+  text-rendering: optimizeSpeed;
+}
+
+.text-render-optimizeLegibility {
+  text-rendering: optimizeLegibility;
+}
+
+.text-render-geometricPrecision {
+  text-rendering: geometricPrecision;
+}
+
+.text-render-auto {
+  text-rendering: auto;
+}
+
+/* Scroll behavior */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+.scroll-auto {
+  scroll-behavior: auto;
+}
+
+/* Scroll snap */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-snap-y {
+  scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-both {
+  scroll-snap-type: both mandatory;
+}
+
+.scroll-snap-none {
+  scroll-snap-type: none;
+}
+
+.scroll-snap-start {
+  scroll-snap-align: start;
+}
+
+.scroll-snap-center {
+  scroll-snap-align: center;
+}
+
+.scroll-snap-end {
+  scroll-snap-align: end;
+}
+
+/* Overscroll behavior */
+.overscroll-auto {
+  overscroll-behavior: auto;
+}
+
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+
+.overscroll-none {
+  overscroll-behavior: none;
+}
+
+.overscroll-x-auto {
+  overscroll-behavior-x: auto;
+}
+
+.overscroll-x-contain {
+  overscroll-behavior-x: contain;
+}
+
+.overscroll-x-none {
+  overscroll-behavior-x: none;
+}
+
+.overscroll-y-auto {
+  overscroll-behavior-y: auto;
+}
+
+.overscroll-y-contain {
+  overscroll-behavior-y: contain;
+}
+
+.overscroll-y-none {
+  overscroll-behavior-y: none;
+}
+
+/* Touch action */
+.touch-auto {
+  touch-action: auto;
+}
+
+.touch-none {
+  touch-action: none;
+}
+
+.touch-pan-x {
+  touch-action: pan-x;
+}
+
+.touch-pan-left {
+  touch-action: pan-left;
+}
+
+.touch-pan-right {
+  touch-action: pan-right;
+}
+
+.touch-pan-y {
+  touch-action: pan-y;
+}
+
+.touch-pan-up {
+  touch-action: pan-up;
+}
+
+.touch-pan-down {
+  touch-action: pan-down;
+}
+
+.touch-pinch-zoom {
+  touch-action: pinch-zoom;
+}
+
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* User select */
+.select-none {
+  user-select: none;
+}
+
+.select-text {
+  user-select: text;
+}
+
+.select-all {
+  user-select: all;
+}
+
+.select-auto {
+  user-select: auto;
+}
+
+/* Pointer events */
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+.pointer-events-fill {
+  pointer-events: fill;
+}
+
+.pointer-events-stroke {
+  pointer-events: stroke;
+}
+
+.pointer-events-painted {
+  pointer-events: painted;
+}
+
+.pointer-events-visible {
+  pointer-events: visible;
+}
+
+.pointer-events-visibleFill {
+  pointer-events: visibleFill;
+}
+
+.pointer-events-visibleStroke {
+  pointer-events: visibleStroke;
+}
+
+.pointer-events-visiblePainted {
+  pointer-events: visiblePainted;
+}
+
+.pointer-events-bounding-box {
+  pointer-events: bounding-box;
+}
+
+/* Resize */
+.resize-none {
+  resize: none;
+}
+
+.resize-y {
+  resize: vertical;
+}
+
+.resize-x {
+  resize: horizontal;
+}
+
+.resize-both {
+  resize: both;
+}
+
+/* Cursor */
+.cursor-auto {
+  cursor: auto;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-wait {
+  cursor: wait;
+}
+
+.cursor-text {
+  cursor: text;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.cursor-help {
+  cursor: help;
+}
+
+.cursor-progress {
+  cursor: progress;
+}
+
+.cursor-crosshair {
+  cursor: crosshair;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
+}
+
+.cursor-zoom-out {
+  cursor: zoom-out;
+}
+
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.cursor-col-resize {
+  cursor: col-resize;
+}
+
+.cursor-row-resize {
+  cursor: row-resize;
+}
+
+.cursor-n-resize {
+  cursor: n-resize;
+}
+
+.cursor-e-resize {
+  cursor: e-resize;
+}
+
+.cursor-s-resize {
+  cursor: s-resize;
+}
+
+.cursor-w-resize {
+  cursor: w-resize;
+}
+
+.cursor-ne-resize {
+  cursor: ne-resize;
+}
+
+.cursor-nw-resize {
+  cursor: nw-resize;
+}
+
+.cursor-se-resize {
+  cursor: se-resize;
+}
+
+.cursor-sw-resize {
+  cursor: sw-resize;
+}
+
+/* Appearance */
+.appearance-none {
+  appearance: none;
+}
+
+.appearance-auto {
+  appearance: auto;
+}
+
+/* Outline */
+.outline-none {
+  outline: none;
+}
+
+.outline-auto {
+  outline: auto;
+}
+
+.outline-dashed {
+  outline: dashed;
+}
+
+.outline-dotted {
+  outline: dotted;
+}
+
+.outline-double {
+  outline: double;
+}
+
+.outline-groove {
+  outline: groove;
+}
+
+.outline-ridge {
+  outline: ridge;
+}
+
+.outline-inset {
+  outline: inset;
+}
+
+.outline-outset {
+  outline: outset;
+}
+
+/* Focus visible */
+.focus-visible {
+  outline: 2px solid #3273dc;
+  outline-offset: 2px;
+}
+
+.focus-visible:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus within */
+.focus-within {
+  outline: 2px solid #3273dc;
+  outline-offset: 2px;
+}
+
+/* Focus ring */
+.focus-ring {
+  outline: 2px solid #3273dc;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus {
+  outline: 2px solid #3273dc;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus not visible */
+.focus-not-visible:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus visible only */
+.focus-visible-only:focus-visible {
+  outline: 2px solid #3273dc;
+  outline-offset: 2px;
+}
+
+/* Focus ring offset */
+.focus-ring-offset-0 {
+  outline-offset: 0;
+}
+
+.focus-ring-offset-1 {
+  outline-offset: 1px;
+}
+
+.focus-ring-offset-2 {
+  outline-offset: 2px;
+}
+
+.focus-ring-offset-4 {
+  outline-offset: 4px;
+}
+
+.focus-ring-offset-8 {
+  outline-offset: 8px;
+}
+
+/* Focus ring color */
+.focus-ring-blue {
+  outline-color: #3273dc;
+}
+
+.focus-ring-green {
+  outline-color: #48c774;
+}
+
+.focus-ring-red {
+  outline-color: #f14668;
+}
+
+.focus-ring-yellow {
+  outline-color: #ffdd57;
+}
+
+.focus-ring-purple {
+  outline-color: #8b5cf6;
+}
+
+.focus-ring-gray {
+  outline-color: #6b7280;
+}
+
+/* Focus ring width */
+.focus-ring-0 {
+  outline-width: 0;
+}
+
+.focus-ring-1 {
+  outline-width: 1px;
+}
+
+.focus-ring-2 {
+  outline-width: 2px;
+}
+
+.focus-ring-4 {
+  outline-width: 4px;
+}
+
+.focus-ring-8 {
+  outline-width: 8px;
+}
+
+/* Focus ring style */
+.focus-ring-solid {
+  outline-style: solid;
+}
+
+.focus-ring-dashed {
+  outline-style: dashed;
+}
+
+.focus-ring-dotted {
+  outline-style: dotted;
+}
+
+.focus-ring-double {
+  outline-style: double;
+}
+
+.focus-ring-groove {
+  outline-style: groove;
+}
+
+.focus-ring-ridge {
+  outline-style: ridge;
+}
+
+.focus-ring-inset {
+  outline-style: inset;
+}
+
+.focus-ring-outset {
+  outline-style: outset;
+}

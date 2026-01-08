@@ -1,0 +1,225 @@
+/*! Bulma Layout | MIT License | https://bulma.io/documentation/layout/ */
+/* Container */
+.container-custom {
+  flex-grow: 1;
+  margin: 0 auto;
+  position: relative;
+  width: auto;
+}
+
+.container-custom.is-fluid {
+  max-width: none !important;
+  padding-left: 32px;
+  padding-right: 32px;
+  width: 100% !important;
+}
+
+.container-custom.is-widescreen {
+  max-width: 1152px !important;
+}
+
+.container-custom.is-fullhd {
+  max-width: 1344px !important;
+}
+
+/* Hero */
+.hero-custom {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.hero-custom .hero-body {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  padding: 3rem 1.5rem;
+}
+
+.hero-custom .hero-head {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.hero-custom .hero-foot {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+/* Section */
+.section-custom {
+  padding: 3rem 1.5rem;
+}
+
+.section-custom.is-medium {
+  padding: 9rem 1.5rem;
+}
+
+.section-custom.is-large {
+  padding: 18rem 1.5rem;
+}
+
+/* Footer */
+.footer-custom {
+  background-color: #fafafa;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* Level */
+.level-custom {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.level-custom .level-item {
+  align-items: center;
+  display: flex;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.level-custom .level-left,
+.level-custom .level-right {
+  align-items: center;
+  display: flex;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.level-custom .level-left {
+  justify-content: flex-start;
+}
+
+.level-custom .level-right {
+  justify-content: flex-end;
+}
+
+/* Media Object */
+.media-custom {
+  align-items: flex-start;
+  display: flex;
+  text-align: left;
+}
+
+.media-custom .media-content {
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  text-align: left;
+}
+
+.media-custom .media-left,
+.media-custom .media-right {
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.media-custom .media-left {
+  margin-right: 1rem;
+}
+
+.media-custom .media-right {
+  margin-left: 1rem;
+}
+
+/* Tiles */
+.tile-custom {
+  align-items: stretch;
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: min-content;
+}
+
+.tile-custom.is-ancestor {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: -0.75rem;
+}
+
+.tile-custom.is-ancestor:last-child {
+  margin-bottom: -0.75rem;
+}
+
+.tile-custom.is-ancestor:not(:last-child) {
+  margin-bottom: 0.75rem;
+}
+
+.tile-custom.is-child {
+  margin: 0 !important;
+}
+
+.tile-custom.is-parent {
+  padding: 0.75rem;
+}
+
+.tile-custom.is-vertical {
+  flex-direction: column;
+}
+
+.tile-custom.is-vertical > .tile-custom.is-child:not(:last-child) {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Columns */
+.columns-custom {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: -0.75rem;
+}
+
+.columns-custom:last-child {
+  margin-bottom: -0.75rem;
+}
+
+.columns-custom:not(:last-child) {
+  margin-bottom: calc(1.5rem - 0.75rem);
+}
+
+.columns-custom.is-centered {
+  justify-content: center;
+}
+
+.columns-custom.is-gapless {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+}
+
+.columns-custom.is-gapless:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.columns-custom.is-gapless > .column {
+  margin: 0;
+  padding: 0 !important;
+}
+
+.columns-custom.is-mobile {
+  display: flex;
+}
+
+.columns-custom.is-multiline {
+  flex-wrap: wrap;
+}
+
+.columns-custom.is-vcentered {
+  align-items: center;
+}
+
+.column-custom {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0.75rem;
+}

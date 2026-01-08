@@ -1,0 +1,271 @@
+/*! Bulma Print | MIT License | https://bulma.io/ */
+/* Print Styles */
+@media print {
+  /* Hide non-essential elements */
+  .no-print,
+  .navbar,
+  .sidebar,
+  .footer,
+  .button,
+  .tabs,
+  .modal,
+  .dropdown,
+  .tooltip {
+    display: none !important;
+  }
+  
+  /* Reset backgrounds and colors */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  /* Ensure text is readable */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #000 !important;
+    background: #fff !important;
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    color: #000 !important;
+  }
+  
+  /* Links */
+  a {
+    text-decoration: underline;
+    color: #000 !important;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666 !important;
+  }
+  
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    page-break-inside: avoid;
+  }
+  
+  th, td {
+    border: 1px solid #000 !important;
+    padding: 4px;
+    text-align: left;
+  }
+  
+  /* Images */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+  }
+  
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .page-break-after {
+    page-break-after: always;
+  }
+  
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+  
+  /* Cards and containers */
+  .card,
+  .box,
+  .container,
+  .section {
+    border: 1px solid #ccc !important;
+    margin-bottom: 1em;
+    padding: 1em;
+    background: #fff !important;
+  }
+  
+  /* Forms */
+  .input,
+  .textarea,
+  .select select {
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  
+  /* Buttons */
+  .button {
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+    padding: 4px 8px;
+  }
+  
+  /* Lists */
+  ul, ol {
+    margin-left: 1.5em;
+  }
+  
+  li {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Code blocks */
+  pre, code {
+    border: 1px solid #ccc !important;
+    background: #f5f5f5 !important;
+    color: #000 !important;
+    font-family: monospace;
+    padding: 4px;
+    white-space: pre-wrap;
+  }
+  
+  /* Blockquotes */
+  blockquote {
+    border-left: 3px solid #ccc !important;
+    margin-left: 1em;
+    padding-left: 1em;
+    font-style: italic;
+  }
+  
+  /* Horizontal rules */
+  hr {
+    border: none;
+    border-top: 1px solid #000 !important;
+    margin: 1em 0;
+  }
+  
+  /* Navigation */
+  .breadcrumb {
+    margin-bottom: 1em;
+  }
+  
+  .breadcrumb li {
+    display: inline;
+    margin-right: 0.5em;
+  }
+  
+  .breadcrumb li:after {
+    content: " > ";
+    margin-left: 0.5em;
+  }
+  
+  .breadcrumb li:last-child:after {
+    content: "";
+  }
+  
+  /* Grid and columns */
+  .columns,
+  .column {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Utilities */
+  .is-hidden-print {
+    display: none !important;
+  }
+  
+  .is-visible-print {
+    display: block !important;
+  }
+  
+  /* Margins and spacing */
+  .section {
+    margin: 1em 0;
+    padding: 1em;
+  }
+  
+  .container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 1em;
+  }
+  
+  /* Font sizes for print */
+  .is-size-1 { font-size: 24pt !important; }
+  .is-size-2 { font-size: 20pt !important; }
+  .is-size-3 { font-size: 18pt !important; }
+  .is-size-4 { font-size: 16pt !important; }
+  .is-size-5 { font-size: 14pt !important; }
+  .is-size-6 { font-size: 12pt !important; }
+  .is-size-7 { font-size: 10pt !important; }
+  
+  /* Text alignment */
+  .has-text-centered { text-align: center !important; }
+  .has-text-left { text-align: left !important; }
+  .has-text-right { text-align: right !important; }
+  .has-text-justified { text-align: justify !important; }
+  
+  /* Colors for print */
+  .has-text-white,
+  .has-text-light {
+    color: #000 !important;
+  }
+  
+  .has-text-dark {
+    color: #000 !important;
+  }
+  
+  .has-text-primary,
+  .has-text-link,
+  .has-text-info,
+  .has-text-success,
+  .has-text-warning,
+  .has-text-danger {
+    color: #000 !important;
+  }
+  
+  /* Backgrounds for print */
+  .has-background-white,
+  .has-background-light,
+  .has-background-dark,
+  .has-background-primary,
+  .has-background-link,
+  .has-background-info,
+  .has-background-success,
+  .has-background-warning,
+  .has-background-danger {
+    background: #fff !important;
+  }
+  
+  /* Shadows for print */
+  .has-shadow,
+  .has-shadow-1,
+  .has-shadow-2,
+  .has-shadow-3,
+  .has-shadow-4,
+  .has-shadow-5 {
+    box-shadow: none !important;
+  }
+  
+  /* Borders for print */
+  .has-border,
+  .has-border-top,
+  .has-border-right,
+  .has-border-bottom,
+  .has-border-left {
+    border-color: #000 !important;
+  }
+  
+  /* Rounded corners for print */
+  .is-rounded,
+  .is-rounded-1,
+  .is-rounded-2,
+  .is-rounded-3,
+  .is-rounded-circle,
+  .is-rounded-pill {
+    border-radius: 0 !important;
+  }
+}
