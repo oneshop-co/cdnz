@@ -1,62 +1,114 @@
-# CDNz Landing Page & Auth (PHP + MySQL)
+# CDNz | لندینگ و سرویس CDN ایرانی
 
-این مخزن شامل یک لندینگ پیج تک‌صفحه‌ای (SPA) برای سرویس **CDNz** به همراه سیستم احراز هویت پایه (ورود / ثبت‌نام) است.
+لندینگ، احراز هویت، داشبورد کاربری و سرو CDN با توکن و کنترل پهنای‌باند برای کتابخانه‌های وب.
 
 ## پیش‌نیازها
 
-1. **PHP ≥ 7.4** (با اکستنشن PDO)
-2. **MySQL ≥ 5.7**
-3. وب‌سرور (Apache/Nginx) یا built-in PHP server برای توسعه
+- **PHP ≥ 7.4** (PDO, curl, json)
+- **MySQL ≥ 5.7** (utf8mb4)
+- وب‌سرور (Apache با mod_rewrite) یا `php -S` برای توسعه
 
 ## نصب و راه‌اندازی
 
-```bash
-# کلون یا کپی سورس
-cd your-folder
+### ۱. کلون و وابستگی‌ها
 
-# اجرای سرور توسعه (اختیاری)
+```bash
+git clone ...
+cd cdnz
+composer install
+```
+
+### ۲. تنظیم محیط
+
+```bash
+cp .env.example .env
+# ویرایش .env و قرار دادن مقادیر واقعی برای DB_* و SMTP_*
+```
+
+متغیرهای مهم در `.env`:
+
+| متغیر | توضیح |
+|--------|--------|
+| `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` | اتصال MySQL |
+| `DB_CHARSET` | معمولاً `utf8mb4` |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | ارسال ایمیل (تأیید ثبت‌نام، بازنشانی رمز) |
+| `SMTP_FROM`, `SMTP_FROM_NAME` | فرستندهٔ ایمیل |
+
+### ۳. دیتابیس و مایگریشن
+
+```sql
+CREATE DATABASE cdnz CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+سپس یک‌بار مایگریشن را اجرا کنید:
+
+```bash
+php run_migrations.php
+```
+
+یا در مرورگر: `https://yourdomain/run_migrations.php` (یک‌بار، سپس در صورت تمایل فایل را محدود/حذف کنید).
+
+### ۴. درگاه پرداخت (زرین‌پال)
+
+- در پنل ادمین، مقدار **merchant_id** زرین‌پال را در **تنظیمات** ذخیره کنید.
+- بدون این مقدار، پرداخت غیرفعال است و خطای «تنظیمات درگاه انجام نشده است» نمایش داده می‌شود.
+
+### ۵. اجرای سرور (توسعه)
+
+```bash
 php -S localhost:8000
 ```
 
-سپس در مرورگر به `http://localhost:8000` بروید.
-
-### ایجاد دیتابیس
-
-```sql
-CREATE DATABASE CDNz CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-USE CDNz;
-
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(150) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-در فایل `api/db.php` اطلاعات اتصال (`$host`, `$db`, `$user`, `$pass`) را مطابق محیط خود تنظیم کنید.
+مرورگر: `http://localhost:8000`
 
 ## ساختار پروژه
 
 ```
-CDNz/
+cdnz/
 ├── api/
-│   ├── db.php          # اتصال به پایگاه داده
-│   └── auth.php        # API احراز هویت (login/register/logout)
-├── js/
-│   └── app.js          # منطق فرانت (jQuery)
-├── index.php           # لندینگ پیج + SPA
-└── README.md           # این فایل
+│   ├── db.php              # اتصال DB و بارگذاری .env
+│   ├── auth.php            # ورود / ثبت‌نام / خروج / بازنشانی رمز / تأیید ایمیل
+│   ├── mailer.php          # ارسال ایمیل (SMTP)
+│   ├── rate_limit.php      # محدودیت درخواست برای auth
+│   ├── payment_helpers.php # لاگ پرداخت
+│   └── ...
+├── migrations/             # مایگریشن‌های دیتابیس (نسخه‌دار)
+│   ├── 001_baseline.sql
+│   └── 002_alter_add_missing_columns.sql
+├── storage/
+│   └── logs/               # لاگ پرداخت و غیره (دسترسی وب مسدود)
+├── js/app.js
+├── index.php               # لندینگ و فرمهای ورود/ثبت‌نام
+├── dashboard.php          # داشبورد کاربر
+├── pay.php                # درخواست پرداخت (زرین‌پال)
+├── verify.php             # callback تأیید پرداخت
+├── payment_result.php     # صفحهٔ نتیجهٔ پرداخت (موفق / خطا / لغو)
+├── serve.php              # سرو فایل CDN با توکن و محدودیت ترافیک
+├── run_migrations.php     # اجرای مایگریشن‌ها
+├── .env.example
+└── README.md
 ```
 
-## یادداشت‌ها
+## جریان پرداخت
 
-- **TailwindCSS** و **jQuery** به‌صورت CDN بارگذاری می‌شوند و نیازی به Node/NPM نیست.
-- طراحی از تصاویر الهام گرفته شده و با تم تاریک / گرادینت آماده شده است.
-- برای ساده بودن، عملیات احراز هویت به صورت ایجکسی با `auth.php` انجام می‌شود و از **Sessions** برای نگهداری وضعیت کاربر استفاده شده است.
-- پس از ورود موفق، دکمه‌های ناوبری به حالت «داشبورد / خروج» تغییر می‌کنند.
+1. کاربر از داشبورد یا تعرفه پلن را انتخاب می‌کند → `pay.php?plan=...`
+2. در صورت تنظیم بودن `merchant_id`، به زرین‌پال ریدایرکت می‌شود.
+3. بعد از پرداخت، زرین‌پال کاربر را به `verify.php` برمی‌گرداند.
+4. در صورت موفق بودن تأیید، ریدایرکت به `payment_result.php?status=ok` و در غیر این صورت به `payment_result.php?status=error` یا `status=cancel`.
+5. خطاهای درگاه در `storage/logs/payment.log` ثبت می‌شوند.
+
+## امنیت
+
+- فایل `.env` و پوشه `storage/` از دسترسی مستقیم وب مسدود شده‌اند (`.htaccess`).
+- برای فرمهای ورود و ثبت‌نام از **CSRF** و **محدودیت درخواست (Rate limit)** استفاده شده است.
+- پس از خروج، کوکی نشست باطل می‌شود.
+
+## UX و صفحات کمکی
+
+- **تعرفه:** دکمه‌های «شروع کنید» / «انتخاب پلن» برای کاربر لاگین‌شده به داشبورد یا `pay.php?plan=...` و برای مهمان به مدال ورود/ثبت‌نام وصل هستند.
+- **مدال‌ها:** بستن با **Escape**، برگرداندن فوکوس به دکمهٔ بازکننده، و `role="dialog"` و `aria-hidden` برای خوانندگان صفحه.
+- **۴۰۴:** صفحهٔ `404.php` برای آدرس‌های نامعتبر؛ در `.htaccess` با `ErrorDocument 404` تنظیم شده است (در صورت نصب در زیرپوشه مسیر را اصلاح کنید).
 
 ## لایسنس
-"MIT" 
+
+MIT

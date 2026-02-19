@@ -1,0 +1,12 @@
+# Environment
+.env
+
+# Composer
+/vendor/
+
+# Logs and storage
+/storage/logs/*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,5 +1,19 @@
 RewriteEngine On
 
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Custom 404 page (اگر سایت در زیرپوشه است مثلاً /cdnz/ بنویس: /cdnz/404.php)
+ErrorDocument 404 /404.php
+
+# Block web access to storage (logs, etc.)
+RewriteRule ^storage/ - [F,L]
+
 # Redirect CDN requests to serve.php
 RewriteRule ^cdn/(.*)$ serve.php?file=$1 [L,QSA]
 

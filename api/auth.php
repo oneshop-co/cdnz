@@ -3,30 +3,68 @@ header('Content-Type: application/json; charset=utf-8');
 session_start();
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mailer.php';
-require_once __DIR__ . '/mailer.php';
+require_once __DIR__ . '/rate_limit.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
+
+/** CSRF: فقط برای عملیات‌های حساس از طریق POST */
+function validate_csrf(): bool
+{
+    $token = $_POST['csrf_token'] ?? '';
+    return isset($_SESSION['csrf_token']) && is_string($token) && hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/** عملیات‌هایی که نیاز به CSRF دارند */
+$csrfActions = ['login', 'register_request', 'request_reset', 'confirm_reset', 'confirm_register'];
+/** عملیات‌هایی که محدودیت تعداد درخواست دارند */
+$rateLimitActions = ['login', 'register_request', 'request_reset'];
+
+if (in_array($action, $rateLimitActions, true) && auth_rate_limit_exceeded()) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'تلاش بیش از حد. لطفاً ۱۵ دقیقه صبر کنید.']);
+    die;
+}
 
 switch ($action) {
     case 'register':
         register($pdo);
         break;
     case 'login':
+        if (!validate_csrf()) {
+            echo json_encode(['success' => false, 'message' => 'نشست منقضی شده. صفحه را رفرش کنید.']);
+            break;
+        }
         login($pdo);
         break;
     case 'logout':
         logout();
         break;
     case 'request_reset':
+        if (!validate_csrf()) {
+            echo json_encode(['success' => false, 'message' => 'نشست منقضی شده. صفحه را رفرش کنید.']);
+            break;
+        }
         request_reset($pdo);
         break;
     case 'confirm_reset':
+        if (!validate_csrf()) {
+            echo json_encode(['success' => false, 'message' => 'نشست منقضی شده. صفحه را رفرش کنید.']);
+            break;
+        }
         confirm_reset($pdo);
         break;
     case 'register_request':
+        if (!validate_csrf()) {
+            echo json_encode(['success' => false, 'message' => 'نشست منقضی شده. صفحه را رفرش کنید.']);
+            break;
+        }
         register_request($pdo);
         break;
     case 'confirm_register':
+        if (!validate_csrf()) {
+            echo json_encode(['success' => false, 'message' => 'نشست منقضی شده. صفحه را رفرش کنید.']);
+            break;
+        }
         confirm_register($pdo);
         break;
     default:
@@ -112,9 +150,13 @@ function login(PDO $pdo): void
 
 function logout(): void
 {
+    // باطل کردن کوکی نشست برای خروج امن
+    if (ini_get('session.use_cookies')) {
+        $p = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 3600, $p['path'], $p['domain'] ?? '', $p['secure'] ?? false, $p['httponly'] ?? true);
+    }
     session_unset();
     session_destroy();
-    // If it was an AJAX logout request, return JSON; else redirect
     if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
         echo json_encode(['success' => true]);
     } else {

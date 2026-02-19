@@ -28,15 +28,7 @@ $options = [
 ];
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
-    
-    // Ensure free_plan_used table exists
-    $pdo->exec("CREATE TABLE IF NOT EXISTS free_plan_used (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NOT NULL UNIQUE,
-        used_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        INDEX idx_user_id (user_id)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    
+    // Schema: run php run_migrations.php once after deploy.
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'خطا در اتصال به دیتابیس']);

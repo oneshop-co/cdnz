@@ -1,0 +1,31 @@
+-- Add columns that may be missing on existing databases (idempotent when run with ignore-duplicate).
+
+ALTER TABLE users ADD COLUMN link_token VARCHAR(64) UNIQUE NULL;
+ALTER TABLE users ADD COLUMN login_notify TINYINT(1) NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN reset_code VARCHAR(6) NULL;
+ALTER TABLE users ADD COLUMN reset_expire DATETIME NULL;
+ALTER TABLE users ADD COLUMN verify_code VARCHAR(6) NULL;
+ALTER TABLE users ADD COLUMN verify_expire DATETIME NULL;
+ALTER TABLE users ADD COLUMN verified TINYINT(1) NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN banned TINYINT(1) DEFAULT 0;
+ALTER TABLE users ADD COLUMN notify5d TINYINT(1) NOT NULL DEFAULT 1;
+ALTER TABLE users ADD COLUMN notify2d TINYINT(1) NOT NULL DEFAULT 1;
+ALTER TABLE users ADD COLUMN notifyExpired TINYINT(1) NOT NULL DEFAULT 1;
+ALTER TABLE users ADD COLUMN notifyUsage TINYINT(1) NOT NULL DEFAULT 1;
+ALTER TABLE users ADD COLUMN notifChannel ENUM('email','telegram') NOT NULL DEFAULT 'email';
+
+ALTER TABLE user_subscriptions ADD COLUMN notified_5d TINYINT(1) NOT NULL DEFAULT 0;
+ALTER TABLE user_subscriptions ADD COLUMN notified_2d TINYINT(1) NOT NULL DEFAULT 0;
+ALTER TABLE user_subscriptions ADD COLUMN notified_expired TINYINT(1) NOT NULL DEFAULT 0;
+
+ALTER TABLE user_bandwidth ADD COLUMN file_path VARCHAR(255) NOT NULL DEFAULT '' AFTER user_id;
+ALTER TABLE user_resources ADD COLUMN file_path VARCHAR(255) NOT NULL DEFAULT '';
+
+ALTER TABLE resources ADD COLUMN file_labels TEXT NULL;
+ALTER TABLE resources ADD COLUMN category_id INT NULL;
+ALTER TABLE resources ADD COLUMN version VARCHAR(50) NOT NULL DEFAULT '1.0.0';
+
+ALTER TABLE snippet_categories ADD COLUMN image VARCHAR(255) DEFAULT NULL;
+ALTER TABLE snippets ADD COLUMN description TEXT NULL;
+ALTER TABLE snippets ADD COLUMN category_id INT NULL;
+ALTER TABLE snippets ADD COLUMN image VARCHAR(255) DEFAULT NULL;

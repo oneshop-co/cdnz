@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 $logged_in = isset($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
@@ -23,6 +26,7 @@ $logged_in = isset($_SESSION['user_id']);
     <meta name="twitter:title" content="CDNz | اولین و سریع‌ترین CDN ایرانی">
     <meta name="twitter:description" content="دانلود پرسرعت کتابخانه‌های وب از سرورهای داخلی.">
     <meta name="twitter:image" content="https://cdnz.ir/assets/og.png">
+    <meta name="csrf-token" content="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <script type="application/ld+json">
@@ -441,7 +445,11 @@ $logged_in = isset($_SESSION['user_id']);
                         <li>SSL خودکار</li>
                         <li>کتابخانه‌های منتخب</li>
                     </ul>
-                    <a href="#" class="mt-6 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center">شروع کنید</a>
+                    <?php if ($logged_in): ?>
+                        <a href="dashboard.php" class="mt-6 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center block">شروع کنید</a>
+                    <?php else: ?>
+                        <button type="button" class="pricing-cta mt-6 w-full px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center" data-pricing-cta="register" data-plan="1">شروع کنید</button>
+                    <?php endif; ?>
                 </div>
                 <div class="card-glass rounded-2xl p-8 flex flex-col card-hover">
                     <h3 class="text-xl font-bold mb-2">استاندارد</h3>
@@ -451,7 +459,11 @@ $logged_in = isset($_SESSION['user_id']);
                         <li>پشتیبانی ایمیلی</li>
                         <li>گزارش‌گیری پایه</li>
                     </ul>
-                    <a href="#" class="mt-6 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center">انتخاب پلن</a>
+                    <?php if ($logged_in): ?>
+                        <a href="pay.php?plan=2" class="mt-6 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center block">انتخاب پلن</a>
+                    <?php else: ?>
+                        <button type="button" class="pricing-cta mt-6 w-full px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center" data-pricing-cta="login" data-plan="2">انتخاب پلن</button>
+                    <?php endif; ?>
                 </div>
                 <div class="rounded-2xl p-0 flex flex-col card-hover" style="min-width:0">
                     <main class="main-container">
@@ -503,7 +515,11 @@ $logged_in = isset($_SESSION['user_id']);
                             <p class="description">Analytics لحظه‌ای</p>
                           </div>
                           <div class="content-bottom" style="padding:8px 32px 32px; margin-top:auto">
-                            <a href="#" class="mt-4 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center">انتخاب پلن</a>
+                            <?php if ($logged_in): ?>
+                                <a href="pay.php?plan=3" class="mt-4 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center block">انتخاب پلن</a>
+                            <?php else: ?>
+                                <button type="button" class="pricing-cta mt-4 w-full px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center" data-pricing-cta="login" data-plan="3">انتخاب پلن</button>
+                            <?php endif; ?>
                           </div>
                         </div>
                       </div>
@@ -517,7 +533,11 @@ $logged_in = isset($_SESSION['user_id']);
                         <li>پشتیبانی ۲۴/۷</li>
                         <li>مدیریت اختصاصی</li>
                     </ul>
-                    <a href="#" class="mt-6 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center">درخواست دمو</a>
+                    <?php if ($logged_in): ?>
+                        <a href="pay.php?plan=4" class="mt-6 px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center block">درخواست دمو</a>
+                    <?php else: ?>
+                        <button type="button" class="pricing-cta mt-6 w-full px-6 py-2 bg-purple-600 rounded hover:bg-purple-700 text-center" data-pricing-cta="login" data-plan="4">درخواست دمو</button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -543,15 +563,16 @@ $logged_in = isset($_SESSION['user_id']);
     </div><!-- /#pageWrap -->
 
     <!-- Login Modal (redesigned) -->
-    <div id="loginModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center hidden modal z-40 px-4">
+    <div id="loginModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center hidden modal z-40 px-4" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" aria-hidden="true">
         <div class="relative w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl p-6 md:p-8 shadow-2xl">
-            <button class="absolute top-3 left-3 text-gray-300 hover:text-white transition modal-close"><i data-feather="x"></i></button>
+            <button type="button" class="absolute top-3 left-3 text-gray-300 hover:text-white transition modal-close" aria-label="بستن"><i data-feather="x"></i></button>
             <div class="flex items-center justify-center mb-5">
                 <span class="badge-pill">امن و سریع</span>
             </div>
-            <h3 class="text-2xl md:text-3xl font-extrabold text-center mb-2">ورود به حساب</h3>
+            <h3 id="loginModalTitle" class="text-2xl md:text-3xl font-extrabold text-center mb-2">ورود به حساب</h3>
             <p class="text-center text-gray-300 text-sm mb-6">برای دسترسی به داشبورد و لینک‌های اختصاصی وارد شوید.</p>
             <form id="loginForm" class="space-y-4">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                 <div class="relative">
                     <label class="block text-sm text-gray-300 mb-1">ایمیل</label>
                     <div class="relative">
@@ -578,15 +599,16 @@ $logged_in = isset($_SESSION['user_id']);
     </div>
 
     <!-- Register Modal (redesigned) -->
-    <div id="registerModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center hidden modal z-40 px-4">
+    <div id="registerModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center hidden modal z-40 px-4" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle" aria-hidden="true">
         <div class="relative w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl p-6 md:p-8 shadow-2xl">
-            <button class="absolute top-3 left-3 text-gray-300 hover:text-white transition modal-close"><i data-feather="x"></i></button>
+            <button type="button" class="absolute top-3 left-3 text-gray-300 hover:text-white transition modal-close" aria-label="بستن"><i data-feather="x"></i></button>
             <div class="flex items-center justify-center mb-5">
                 <span class="badge-pill">ایجاد حساب</span>
             </div>
-            <h3 class="text-2xl md:text-3xl font-extrabold text-center mb-2">ایجاد حساب جدید</h3>
+            <h3 id="registerModalTitle" class="text-2xl md:text-3xl font-extrabold text-center mb-2">ایجاد حساب جدید</h3>
             <p class="text-center text-gray-300 text-sm mb-6">برای دریافت لینک‌های اختصاصی و مدیریت کتابخانه‌ها ثبت‌نام کنید.</p>
             <form id="registerForm" class="space-y-4">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                 <div>
                     <label class="block text-sm text-gray-300 mb-1">نام و نام خانوادگی</label>
                     <div class="relative">
@@ -625,10 +647,11 @@ $logged_in = isset($_SESSION['user_id']);
     </div>
 
     <!-- Reset Password Modal -->
-    <div id="resetModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg flex items-center justify-center hidden modal z-40 px-4">
+    <div id="resetModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg flex items-center justify-center hidden modal z-40 px-4" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle" aria-hidden="true">
         <div class="relative w-full max-w-lg bg-gray-800 rounded-2xl shadow-2xl ring-1 ring-purple-500/30 p-8">
-            <button class="absolute top-4 left-4 text-gray-400 hover:text-gray-200 transition modal-close"><i data-feather="x"></i></button>
-            <h3 class="text-2xl font-extrabold mb-6 text-center text-purple-400">بازنشانی رمز عبور</h3>
+            <button type="button" class="absolute top-4 left-4 text-gray-400 hover:text-gray-200 transition modal-close" aria-label="بستن"><i data-feather="x"></i></button>
+            <h3 id="resetModalTitle" class="text-2xl font-extrabold mb-6 text-center text-purple-400">بازنشانی رمز عبور</h3>
+            <input type="hidden" id="resetCsrf" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <div id="resetStep1">
                 <input type="email" id="resetEmail" placeholder="ایمیل" class="w-full mb-4 p-3 rounded-lg bg-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-purple-600 focus:outline-none">
                 <button id="sendResetCode" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg hover:from-purple-700 hover:to-indigo-700 shadow-lg">ارسال کد</button>

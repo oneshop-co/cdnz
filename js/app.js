@@ -87,47 +87,72 @@ $(function () {
 
 
 
-    // Open modal buttons
+    // ---------- Modal open/close with a11y (focus, Escape, aria-hidden) ----------
+    var lastModalTrigger = null;
+
+    function openModal($modal) {
+        $modal.removeClass('hidden').attr('aria-hidden', 'false');
+        lastModalTrigger = document.activeElement && document.activeElement.id ? document.activeElement : null;
+        var firstFocus = $modal.find('button.modal-close, input:first, [autofocus]').first()[0];
+        if (firstFocus) setTimeout(function () { firstFocus.focus(); }, 50);
+    }
+
+    function closeModal($modal) {
+        $modal.addClass('hidden').attr('aria-hidden', 'true');
+        if (lastModalTrigger && lastModalTrigger.focus) lastModalTrigger.focus();
+        lastModalTrigger = null;
+    }
+
+    $(document).on('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var $visible = $('.modal:not(.hidden)').last();
+        if ($visible.length) { closeModal($visible); e.preventDefault(); }
+    });
+
     $('#openLogin, #mobileLogin').on('click', function () {
-        $('#loginModal').removeClass('hidden');
+        openModal($('#loginModal'));
     });
     $('#openRegister, #mobileRegister').on('click', function () {
-        $('#registerModal').removeClass('hidden');
+        openModal($('#registerModal'));
     });
 
-    // Close modal buttons
     $('.modal-close').on('click', function () {
-        $(this).closest('.modal').addClass('hidden');
+        closeModal($(this).closest('.modal'));
     });
 
-    // Close login/register modal when clicking outside content
     $(document).on('click', '#loginModal, #registerModal, #resetModal', function (e) {
-        if (e.target === this) {
-            $(this).addClass('hidden');
-        }
+        if (e.target === this) closeModal($(this));
     });
 
-    // Forgot password link
-    $(document).on('click','#openReset',function(){
-        $('#loginModal').addClass('hidden');
-        $('#resetModal').removeClass('hidden');
+    $(document).on('click', '.pricing-cta', function () {
+        var action = $(this).data('pricing-cta');
+        if (action === 'register') openModal($('#registerModal'));
+        else if (action === 'login') openModal($('#loginModal'));
+    });
+
+    $(document).on('click', '#openReset', function () {
+        $('#loginModal').addClass('hidden').attr('aria-hidden', 'true');
+        openModal($('#resetModal'));
     });
 
     const $resetStep1 = $('#resetStep1');
     const $resetStep2 = $('#resetStep2');
     const $resetMsg   = $('#resetMsg');
 
+    function getCsrf() {
+        return $('meta[name="csrf-token"]').attr('content') || $('#resetCsrf').val() || '';
+    }
     $('#sendResetCode').on('click', function(){
         const email=$('#resetEmail').val().trim();
         if(!email){$resetMsg.text('ایمیل را وارد کنید');return;}
         $resetMsg.text('در حال ارسال...');
-        $.post('api/auth.php', {action:'request_reset', email}, function(res){
+        $.post('api/auth.php', {action:'request_reset', email, csrf_token: getCsrf()}, function(res){
            if(res.success){
                $resetMsg.text('کد ارسال شد. ایمیل خود را بررسی کنید');
                $resetStep1.addClass('hidden');
                $resetStep2.removeClass('hidden');
            }else{$resetMsg.text(res.message||'خطا');}
-        },'json').fail(()=>{$resetMsg.text('خطا در اتصال');});
+        },'json').fail(function(xhr){ setAuthError(xhr, $resetMsg, 'خطا در اتصال'); });
     });
 
     $('#confirmReset').on('click', function(){
@@ -136,7 +161,7 @@ $(function () {
         const password=$('#resetNewPass').val();
         if(!code||!password){$resetMsg.text('همه فیلدها الزامیست');return;}
         $resetMsg.text('در حال تایید...');
-        $.post('api/auth.php',{action:'confirm_reset',email,code,password},function(res){
+        $.post('api/auth.php',{action:'confirm_reset',email,code,password,csrf_token: getCsrf()},function(res){
            if(res.success){
                $resetMsg.text('رمز عبور بروزرسانی شد.');
                setTimeout(()=>{
@@ -149,9 +174,19 @@ $(function () {
                },800);
            }
            else{$resetMsg.text(res.message||'خطا');}
-        },'json').fail(()=>{$resetMsg.text('خطا در اتصال');});
+        },'json').fail(function(xhr){ setAuthError(xhr, $resetMsg, 'خطا در اتصال'); });
     });
 
+    // Helper: show auth error (including 429 rate limit)
+    function setAuthError(xhr, $el, fallback) {
+        var msg = fallback || 'خطا در اتصال به سرور';
+        try {
+            var data = xhr.responseJSON || JSON.parse(xhr.responseText || '{}');
+            if (xhr.status === 429 && data.message) msg = data.message;
+            else if (data.message) msg = data.message;
+        } catch (e) {}
+        if ($el && $el.length) $el.text(msg);
+    }
     // Submit login form
     $('#loginForm').on('submit', function (e) {
         e.preventDefault();
@@ -162,8 +197,8 @@ $(function () {
             } else {
                 $('#loginError').text(response.message || 'خطا در ورود');
             }
-        }, 'json').fail(function () {
-            $('#loginError').text('خطا در اتصال به سرور');
+        }, 'json').fail(function (xhr) {
+            setAuthError(xhr, $('#loginError'), 'خطا در اتصال به سرور');
         });
     });
 
@@ -183,7 +218,7 @@ $(function () {
             }else{
                 $('#registerError').text(res.message||'خطا');
             }
-        },'json').always(function(){ $btn.prop('disabled',false); }).fail(function(){ $('#registerError').text('خطا در اتصال'); });
+        },'json').always(function(){ $btn.prop('disabled',false); }).fail(function(xhr){ setAuthError(xhr, $('#registerError'), 'خطا در اتصال'); });
     });
 
     $('#confirmRegister').on('click',function(){
@@ -191,9 +226,9 @@ $(function () {
         if(!code){$('#registerMsg').text('کد را وارد کنید');return;}
         const $btn=$(this);
         $btn.prop('disabled',true);
-        $.post('api/auth.php',{action:'confirm_register',email:regEmail,code},function(res){
+        $.post('api/auth.php',{action:'confirm_register',email:regEmail,code,csrf_token: getCsrf()},function(res){
             if(res.success){location.reload();}
             else{ $('#registerMsg').text(res.message||'خطا'); $btn.prop('disabled',false); }
-        },'json').fail(function(){ $('#registerMsg').text('خطا در اتصال'); $btn.prop('disabled',false); });
+        },'json').fail(function(xhr){ setAuthError(xhr, $('#registerMsg'), 'خطا در اتصال'); $btn.prop('disabled',false); });
     });
 });
