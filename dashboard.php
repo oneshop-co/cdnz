@@ -66,16 +66,33 @@ if(!$token){
 // ensure file_labels column exists for older databases
 try{ $pdo->query("SELECT file_labels FROM resources LIMIT 1"); }
 catch(PDOException $e){ $pdo->exec("ALTER TABLE resources ADD COLUMN file_labels TEXT NULL"); }
+/**
+ * لیست بازگشتی همهٔ فایل‌های داخل یک پوشه (برای منابعی مثل فونت با زیرپوشه‌های زیاد).
+ * مسیر برگشتی نسبت به روت پروژه است، مثلاً cdn/fonts/ausom/woff2/file.woff2
+ */
+function listResourceFilesRecursive(string $dir, string $prefix): array {
+    $out = [];
+    if (!is_dir($dir)) return $out;
+    foreach (scandir($dir) as $f) {
+        if ($f === '.' || $f === '..') continue;
+        $full = $dir . '/' . $f;
+        $path = $prefix . '/' . $f;
+        if (is_dir($full)) {
+            $out = array_merge($out, listResourceFilesRecursive($full, $path));
+        } else {
+            $out[] = ltrim($path, '/');
+        }
+    }
+    return $out;
+}
+
 $rows = $pdo->query('SELECT r.id, r.name, r.logo, r.version, r.local_path, r.file_labels, c.title AS category FROM resources r LEFT JOIN resource_categories c ON c.id = r.category_id ORDER BY c.title, r.name')->fetchAll(PDO::FETCH_ASSOC);
 $allResources = [];
 foreach($rows as $r){
     $folder = __DIR__.'/'.$r['local_path']; // absolute path
     $files = [];
     if(is_dir($folder)){
-        foreach(scandir($folder) as $f){
-            if($f==='.'||$f==='..') continue;
-            $files[] = $r['local_path'].'/'.$f; // relative path like cdn/bootstrap/xyz.js
-        }
+        $files = listResourceFilesRecursive($folder, $r['local_path']);
     }
     $r['files'] = $files;
     // decode labels map (base filename => label)
@@ -675,18 +692,57 @@ if (!$user) {
                 </div>
                 <span class="text-xs text-gray-400">${r.version||''}</span>`;
               cdnResults.appendChild(header);
+              const base = (r.local_path || '').replace(/\/?$/, '') + '/';
+              const byGroup = {};
               r.files.forEach(fp=>{
-                 const row=document.createElement('div');
-                 row.className='flex justify-between items-center bg-gray-700 p-3 rounded mb-1';
-                 const fname=fp.split('/').pop();
-                 const label=(r.labels && r.labels[fname])? r.labels[fname] : fname;
-                 row.innerHTML=`<span class="text-sm">${label}</span><button data-id="${r.id}" data-file="${fp}" class="add-res px-3 py-1 bg-purple-600 rounded text-xs hover:bg-purple-700">افزودن</button>`;
-                 cdnResults.appendChild(row);
+                 const rel = base ? fp.replace(base, '') : fp;
+                 const parts = rel.split('/');
+                 const groupKey = parts.length > 1 ? parts.slice(0, -1).join('/') : '(ریشه)';
+                 if(!byGroup[groupKey]) byGroup[groupKey]=[];
+                 byGroup[groupKey].push(fp);
+              });
+              const groups = Object.entries(byGroup);
+              groups.forEach(([groupName, fileList])=>{
+                 if(groups.length > 1){
+                    const groupHead=document.createElement('div');
+                    groupHead.className='flex justify-between items-center mt-2 mb-1 px-2 py-1 rounded bg-gray-800/80 text-amber-200/90 text-xs font-medium';
+                    const filesJson = JSON.stringify(fileList).replace(/"/g, '&quot;');
+                    groupHead.innerHTML=`<span>${groupName}</span><button type="button" class="add-group px-2 py-0.5 bg-amber-600/80 hover:bg-amber-600 rounded text-white" data-id="${r.id}" data-files-json="${filesJson}">افزودن همه (${fileList.length})</button>`;
+                    cdnResults.appendChild(groupHead);
+                 }
+                 fileList.forEach(fp=>{
+                    const row=document.createElement('div');
+                    row.className='flex justify-between items-center bg-gray-700 p-3 rounded mb-1';
+                    const fname=fp.split('/').pop();
+                    const label=(r.labels && r.labels[fname])? r.labels[fname] : fname;
+                    row.innerHTML=`<span class="text-sm truncate" title="${fp}">${label}</span><button data-id="${r.id}" data-file="${fp}" class="add-res px-3 py-1 bg-purple-600 rounded text-xs hover:bg-purple-700">افزودن</button>`;
+                    cdnResults.appendChild(row);
+                 });
               });
            });
         });
 
         cdnResults.addEventListener('click',async e=>{
+            const addGroupBtn = e.target.closest('.add-group');
+            if(addGroupBtn){
+               const id = addGroupBtn.dataset.id;
+               let fileList = [];
+               try { fileList = JSON.parse((addGroupBtn.dataset.filesJson || '').replace(/&quot;/g, '"')); } catch(_) {}
+               if(!fileList.length){ cdnMsg.textContent='لیست فایل خالی است'; return; }
+               addGroupBtn.disabled = true;
+               cdnMsg.textContent = `در حال افزودن ${fileList.length} فایل...`;
+               let done = 0, failed = 0;
+               for(const file of fileList){
+                  const fd = new FormData(); fd.append('action','add'); fd.append('resource_id',id); fd.append('file_path',file);
+                  const resp = await fetch('api/user_library.php',{method:'POST',body:fd});
+                  const d = await resp.json();
+                  if(d.success) done++; else failed++;
+               }
+               cdnMsg.textContent = failed ? `افزوده شد: ${done}، خطا: ${failed}` : `همهٔ ${done} فایل اضافه شد.`;
+               addGroupBtn.disabled = false;
+               if(done) setTimeout(()=>location.reload(), 1200);
+               return;
+            }
             const btn=e.target.closest('.add-res');
             if(!btn) return;
             const id=btn.dataset.id;
