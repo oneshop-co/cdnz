@@ -6,6 +6,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$is_admin = (int)($_SESSION['user_id'] ?? 0) === 1;
+
 require_once __DIR__ . '/api/db.php';
 // اطمینان از وجود پلن‌های به‌روز
 $seedPlans=[[1,'Free',0,1073741824],[2,'Standard',500000,10737418240],[3,'Pro',700000,16106127360],[4,'Business',1200000,32212254720]];
@@ -254,6 +256,9 @@ if (!$user) {
                 <a href="index.php#cdns" class="dash-link hidden md:inline">کتابخانه‌ها</a>
                 <a href="index.php#pricing" class="dash-link hidden md:inline">تعرفه‌ها</a>
                 <a href="dashboard.php" class="dash-link active hidden md:inline">داشبورد</a>
+                <?php if ($is_admin): ?>
+                <a href="admin.php" class="px-4 py-2 rounded-full border-2 border-amber-500/70 text-amber-300 hover:bg-amber-500/20 hidden md:inline-flex items-center gap-2" title="پنل ادمین"><i data-feather="shield" class="w-4 h-4"></i><span>پنل ادمین</span></a>
+                <?php endif; ?>
                 <a href="api/auth.php?action=logout" class="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow">خروج</a>
                 <button id="dashMenuBtn" class="md:hidden ml-2 focus:outline-none"><i data-feather="menu"></i></button>
             </div>
@@ -267,6 +272,9 @@ if (!$user) {
         <div class="h-full md:h-auto overflow-y-auto p-6 space-y-3">
             <p class="dash-label mb-2">منوی اصلی</p>
             <a href="dashboard.php" class="dash-item dash-active"><i data-feather="home" class="w-5 h-5"></i><span>داشبورد</span></a>
+            <?php if ($is_admin): ?>
+            <a href="admin.php" class="dash-item text-amber-300 hover:bg-amber-500/10"><i data-feather="shield" class="w-5 h-5"></i><span>پنل ادمین</span></a>
+            <?php endif; ?>
             <a href="analytics.php" class="dash-item"><i data-feather="bar-chart-2" class="w-5 h-5"></i><span>تحلیل مصرف</span></a>
             <a href="libraries.php" class="dash-item"><i data-feather="book-open" class="w-5 h-5"></i><span>کتابخانه‌های من</span></a>
             <a href="invoices.php" class="dash-item"><i data-feather="credit-card" class="w-5 h-5"></i><span>صورت‌حساب‌ها</span></a>
