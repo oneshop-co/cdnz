@@ -1,16 +1,16 @@
-# CDNz | لندینگ و سرویس CDN ایرانی
+# CDNz | Iranian CDN Landing and Service
 
-لندینگ، احراز هویت، داشبورد کاربری و سرو CDN با توکن و کنترل پهنای‌باند برای کتابخانه‌های وب.
+Landing, authentication, user dashboard, and CDN serving with token and bandwidth control for web libraries.
 
-## پیش‌نیازها
+## Prerequisites
 
 - **PHP ≥ 7.4** (PDO, curl, json)
 - **MySQL ≥ 5.7** (utf8mb4)
-- وب‌سرور (Apache با mod_rewrite) یا `php -S` برای توسعه
+- Web server (Apache with mod_rewrite) or `php -S` for development
 
-## نصب و راه‌اندازی
+## Installation and Setup
 
-### ۱. کلون و وابستگی‌ها
+### 1. Clone and Dependencies
 
 ```bash
 git clone ...
@@ -18,97 +18,97 @@ cd cdnz
 composer install
 ```
 
-### ۲. تنظیم محیط
+### 2. Environment Configuration
 
 ```bash
 cp .env.example .env
-# ویرایش .env و قرار دادن مقادیر واقعی برای DB_* و SMTP_*
+# Edit .env and set real values for DB_* and SMTP_*
 ```
 
-متغیرهای مهم در `.env`:
+Important variables in `.env`:
 
-| متغیر | توضیح |
-|--------|--------|
-| `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` | اتصال MySQL |
-| `DB_CHARSET` | معمولاً `utf8mb4` |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | ارسال ایمیل (تأیید ثبت‌نام، بازنشانی رمز) |
-| `SMTP_FROM`, `SMTP_FROM_NAME` | فرستندهٔ ایمیل |
+| Variable | Description |
+|--------|-------------|
+| `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` | MySQL connection |
+| `DB_CHARSET` | Usually `utf8mb4` |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Email sending (registration confirmation, password reset) |
+| `SMTP_FROM`, `SMTP_FROM_NAME` | Email sender |
 
-### ۳. دیتابیس و مایگریشن
+### 3. Database and Migrations
 
 ```sql
 CREATE DATABASE cdnz CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-سپس یک‌بار مایگریشن را اجرا کنید:
+Then run migrations once:
 
 ```bash
 php run_migrations.php
 ```
 
-یا در مرورگر: `https://yourdomain/run_migrations.php` (یک‌بار، سپس در صورت تمایل فایل را محدود/حذف کنید).
+Or in browser: `https://yourdomain/run_migrations.php` (once, then restrict/remove the file if desired).
 
-### ۴. درگاه پرداخت (زرین‌پال)
+### 4. Payment Gateway (Zarinpal)
 
-- در پنل ادمین، مقدار **merchant_id** زرین‌پال را در **تنظیمات** ذخیره کنید.
-- بدون این مقدار، پرداخت غیرفعال است و خطای «تنظیمات درگاه انجام نشده است» نمایش داده می‌شود.
+- In the admin panel, save the Zarinpal **merchant_id** in **Settings**.
+- Without this value, payment is disabled and the error "Gateway settings not configured" is displayed.
 
-### ۵. اجرای سرور (توسعه)
+### 5. Running the Server (Development)
 
 ```bash
 php -S localhost:8000
 ```
 
-مرورگر: `http://localhost:8000`
+Browser: `http://localhost:8000`
 
-## ساختار پروژه
+## Project Structure
 
 ```
 cdnz/
 ├── api/
-│   ├── db.php              # اتصال DB و بارگذاری .env
-│   ├── auth.php            # ورود / ثبت‌نام / خروج / بازنشانی رمز / تأیید ایمیل
-│   ├── mailer.php          # ارسال ایمیل (SMTP)
-│   ├── rate_limit.php      # محدودیت درخواست برای auth
-│   ├── payment_helpers.php # لاگ پرداخت
+│   ├── db.php              # DB connection and .env loading
+│   ├── auth.php            # Login / Register / Logout / Password reset / Email verification
+│   ├── mailer.php          # Email sending (SMTP)
+│   ├── rate_limit.php      # Rate limiting for auth
+│   ├── payment_helpers.php # Payment log
 │   └── ...
-├── migrations/             # مایگریشن‌های دیتابیس (نسخه‌دار)
+├── migrations/             # Database migrations (versioned)
 │   ├── 001_baseline.sql
 │   └── 002_alter_add_missing_columns.sql
 ├── storage/
-│   └── logs/               # لاگ پرداخت و غیره (دسترسی وب مسدود)
+│   └── logs/               # Payment log etc. (web access blocked)
 ├── js/app.js
-├── index.php               # لندینگ و فرمهای ورود/ثبت‌نام
-├── dashboard.php          # داشبورد کاربر
-├── pay.php                # درخواست پرداخت (زرین‌پال)
-├── verify.php             # callback تأیید پرداخت
-├── payment_result.php     # صفحهٔ نتیجهٔ پرداخت (موفق / خطا / لغو)
-├── serve.php              # سرو فایل CDN با توکن و محدودیت ترافیک
-├── run_migrations.php     # اجرای مایگریشن‌ها
+├── index.php               # Landing and login/register forms
+├── dashboard.php          # User dashboard
+├── pay.php                # Payment request (Zarinpal)
+├── verify.php             # Payment verification callback
+├── payment_result.php     # Payment result page (success / error / cancel)
+├── serve.php              # Serve CDN file with token and traffic limit
+├── run_migrations.php     # Run migrations
 ├── .env.example
 └── README.md
 ```
 
-## جریان پرداخت
+## Payment Flow
 
-1. کاربر از داشبورد یا تعرفه پلن را انتخاب می‌کند → `pay.php?plan=...`
-2. در صورت تنظیم بودن `merchant_id`، به زرین‌پال ریدایرکت می‌شود.
-3. بعد از پرداخت، زرین‌پال کاربر را به `verify.php` برمی‌گرداند.
-4. در صورت موفق بودن تأیید، ریدایرکت به `payment_result.php?status=ok` و در غیر این صورت به `payment_result.php?status=error` یا `status=cancel`.
-5. خطاهای درگاه در `storage/logs/payment.log` ثبت می‌شوند.
+1. User selects a plan from the dashboard or pricing → `pay.php?plan=...`
+2. If `merchant_id` is configured, user is redirected to Zarinpal.
+3. After payment, Zarinpal returns the user to `verify.php`.
+4. If verification succeeds, redirect to `payment_result.php?status=ok`; otherwise to `payment_result.php?status=error` or `status=cancel`.
+5. Gateway errors are logged in `storage/logs/payment.log`.
 
-## امنیت
+## Security
 
-- فایل `.env` و پوشه `storage/` از دسترسی مستقیم وب مسدود شده‌اند (`.htaccess`).
-- برای فرمهای ورود و ثبت‌نام از **CSRF** و **محدودیت درخواست (Rate limit)** استفاده شده است.
-- پس از خروج، کوکی نشست باطل می‌شود.
+- The `.env` file and `storage/` directory are blocked from direct web access (`.htaccess`).
+- **CSRF** and **Rate limiting** are used for login and registration forms.
+- After logout, the session cookie is invalidated.
 
-## UX و صفحات کمکی
+## UX and Auxiliary Pages
 
-- **تعرفه:** دکمه‌های «شروع کنید» / «انتخاب پلن» برای کاربر لاگین‌شده به داشبورد یا `pay.php?plan=...` و برای مهمان به مدال ورود/ثبت‌نام وصل هستند.
-- **مدال‌ها:** بستن با **Escape**، برگرداندن فوکوس به دکمهٔ بازکننده، و `role="dialog"` و `aria-hidden` برای خوانندگان صفحه.
-- **۴۰۴:** صفحهٔ `404.php` برای آدرس‌های نامعتبر؛ در `.htaccess` با `ErrorDocument 404` تنظیم شده است (در صورت نصب در زیرپوشه مسیر را اصلاح کنید).
+- **Pricing:** "Get Started" / "Choose Plan" buttons for logged-in users link to the dashboard or `pay.php?plan=...`, and for guests to the login/register modal.
+- **Modals:** Close with **Escape**, return focus to the opener button, and use `role="dialog"` and `aria-hidden` for screen readers.
+- **404:** `404.php` page for invalid URLs; set in `.htaccess` with `ErrorDocument 404` (adjust path if installed in a subdirectory).
 
-## لایسنس
+## License
 
 MIT
